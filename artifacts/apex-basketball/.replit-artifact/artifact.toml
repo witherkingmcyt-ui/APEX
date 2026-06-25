@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "APEX Basketball"
+version = "1.0.0"
+id = "artifacts/apex-basketball"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20314
+
+[services.development]
+run = "pnpm --filter @workspace/apex-basketball run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/apex-basketball", "run", "build" ]
+publicDir = "artifacts/apex-basketball/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20314"
+BASE_PATH = "/"
