@@ -13,22 +13,26 @@ export default function PlayerCard({ player }: { player: Player }) {
             backgroundSize: "20px 20px"
           }} />
           
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-            <span className="font-display text-[120px] text-white/5 select-none translate-y-4">#{player.jersey}</span>
+          {/* Jersey number watermark — top area only */}
+          <div className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none overflow-hidden">
+            <span className="font-display text-[90px] leading-none text-white/5 select-none">#{player.jersey}</span>
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-             {/* Basketball silhouette placeholder SVG */}
-             <svg viewBox="0 0 100 100" className="w-full h-full opacity-20 fill-primary">
-                <path d="M50 10 C30 10 15 25 15 45 C15 60 25 75 40 85 C45 88 55 88 60 85 C75 75 85 60 85 45 C85 25 70 10 50 10 Z" />
-                <circle cx="50" cy="30" r="10" />
-             </svg>
+          {/* Player silhouette — center, contained above the text block */}
+          <div className="absolute inset-x-0 top-[60px] bottom-[80px] flex items-center justify-center p-4 pointer-events-none">
+            <svg viewBox="0 0 100 130" className="h-full w-auto opacity-25 fill-primary">
+              <circle cx="50" cy="22" r="14" />
+              <path d="M26 55 Q28 38 50 36 Q72 38 74 55 L78 95 Q78 100 72 100 L65 100 L62 75 L60 100 L40 100 L38 75 L35 100 L28 100 Q22 100 22 95 Z" />
+              <path d="M28 100 L24 125 Q23 128 27 128 L33 128 L36 108 L38 128 L44 128 L46 100 Z" />
+              <path d="M72 100 L76 125 Q77 128 73 128 L67 128 L64 108 L62 128 L56 128 L54 100 Z" />
+            </svg>
           </div>
 
-          <div className="relative z-10 mt-auto">
-            <h3 className="font-bold text-lg text-white mb-1 uppercase tracking-wider">{player.name}</h3>
-            <p className="text-primary font-medium text-sm">{player.position}</p>
-            <p className="text-muted-foreground text-xs mt-1">{player.grade}</p>
+          {/* Name / position / grade — pinned to bottom, no overlap */}
+          <div className="relative z-10 bg-gradient-to-t from-card via-card/90 to-transparent pt-6">
+            <h3 className="font-bold text-base text-white uppercase tracking-wider leading-tight">{player.name}</h3>
+            <p className="text-primary font-medium text-xs mt-0.5">{player.position}</p>
+            <p className="text-muted-foreground text-xs mt-0.5">{player.grade}</p>
           </div>
         </div>
 
@@ -41,8 +45,7 @@ export default function PlayerCard({ player }: { player: Player }) {
            <span className="font-display text-5xl text-white mb-4">#{player.jersey}</span>
            <h3 className="font-bold text-xl text-white mb-2 uppercase">{player.name}</h3>
            <div className="w-8 h-0.5 bg-primary mb-4" />
-           <p className="text-primary font-medium text-sm mb-1">{player.positionFull}</p>
-           <p className="text-muted-foreground text-sm">{player.grade}</p>
+           <p className="text-primary font-medium text-sm">{player.position}</p>
         </div>
 
       </div>
