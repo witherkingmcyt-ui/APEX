@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import ApexButton from "../ui/ApexButton";
+import { useAuth } from "../../context/AuthContext";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -24,7 +26,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on navigation
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
@@ -67,7 +68,56 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              {/* Log In / Admin */}
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <Link
+                    href="/admin"
+                    className={`relative text-sm font-medium tracking-wide transition-colors hover:text-primary ${
+                      location === "/admin" ? "text-primary" : "text-foreground"
+                    }`}
+                    data-testid="nav-link-admin"
+                  >
+                    Admin
+                    {location === "/admin" && (
+                      <motion.div
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="text-sm font-medium tracking-wide text-muted-foreground hover:text-primary transition-colors"
+                    data-testid="nav-logout"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className={`relative text-sm font-medium tracking-wide transition-colors hover:text-primary ${
+                    location === "/login" ? "text-primary" : "text-foreground"
+                  }`}
+                  data-testid="nav-link-login"
+                >
+                  Log In
+                  {location === "/login" && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              )}
             </div>
+
             <Link href="/join">
               <ApexButton data-testid="nav-join-button">Join APEX</ApexButton>
             </Link>
@@ -115,6 +165,35 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    href="/admin"
+                    className={`font-display text-4xl tracking-wider transition-colors ${
+                      location === "/admin" ? "text-primary" : "text-foreground"
+                    }`}
+                  >
+                    Admin
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="font-display text-4xl tracking-wider text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Log Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  className={`font-display text-4xl tracking-wider transition-colors ${
+                    location === "/login" ? "text-primary" : "text-foreground"
+                  }`}
+                >
+                  Log In
+                </Link>
+              )}
+
               <div className="mt-8">
                 <Link href="/join">
                   <ApexButton size="lg">Join APEX</ApexButton>

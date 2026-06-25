@@ -13,6 +13,6 @@ export const coaches: Coach[] = [
     name: "Greg Gabriel",
     title: "Assistant Coach",
     initials: "GG",
-    bio: "Greg Gabriel brings valuable on-court experience and energy to the APEX program. As a current high school basketball player, Greg understands exactly what young athletes need to succeed at the next level. He has multiple years of basketball coaching experience with SEYO and plays an essential role in player development and practice management.",
+    bio: "Greg Gabriel brings valuable on-court experience and energy to the APEX program. He has multiple years of basketball coaching experience with SEYO and plays an essential role in player development and practice management.",
   }
 ];

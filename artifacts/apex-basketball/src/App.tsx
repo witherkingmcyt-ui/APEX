@@ -14,12 +14,18 @@ import Schedule from "./pages/Schedule";
 import Contact from "./pages/Contact";
 import Join from "./pages/Join";
 import Gallery from "./pages/Gallery";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 // Layout
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import CustomCursor from "./components/layout/CustomCursor";
+
+// Context
+import { AuthProvider } from "./context/AuthContext";
+import { EventProvider } from "./context/EventContext";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +108,8 @@ function AnimatedRouter() {
         <Route path="/contact" component={Contact} />
         <Route path="/join" component={Join} />
         <Route path="/gallery" component={Gallery} />
+        <Route path="/login" component={Login} />
+        <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
@@ -147,17 +155,21 @@ function App() {
         </AnimatePresence>
 
         {!loading && (
-          <div className="flex flex-col min-h-[100dvh] bg-background text-foreground selection:bg-primary selection:text-white">
-            <CustomCursor />
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <Navbar />
-              <main className="flex-grow flex flex-col relative z-0">
-                <AnimatedRouter />
-              </main>
-              <Footer />
-            </WouterRouter>
-            <Toaster theme="dark" position="bottom-right" />
-          </div>
+          <AuthProvider>
+            <EventProvider>
+              <div className="flex flex-col min-h-[100dvh] bg-background text-foreground selection:bg-primary selection:text-white">
+                <CustomCursor />
+                <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+                  <Navbar />
+                  <main className="flex-grow flex flex-col relative z-0">
+                    <AnimatedRouter />
+                  </main>
+                  <Footer />
+                </WouterRouter>
+                <Toaster theme="dark" position="bottom-right" />
+              </div>
+            </EventProvider>
+          </AuthProvider>
         )}
 
       </TooltipProvider>

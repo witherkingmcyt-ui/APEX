@@ -9,6 +9,7 @@ import CountdownTimer from "../components/ui/CountdownTimer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { testimonials } from "../data/testimonials";
 import { useInView } from "react-intersection-observer";
+import { useFeaturedEvent } from "../context/EventContext";
 
 function StatNumber({ value, label, inView }: { value: number; label: string; inView: boolean }) {
   const [count, setCount] = useState(0);
@@ -62,7 +63,18 @@ export default function Home() {
 
   const { ref: statsInViewRef, inView: statsInView } = useInView({ threshold: 0.5, triggerOnce: true });
 
-  const targetDate = new Date("2026-07-09T00:00:00");
+  const { event } = useFeaturedEvent();
+  const targetDate = new Date(event.countdownTarget);
+
+  const eventDateLabel = (() => {
+    if (!event.startDate || !event.endDate) return "";
+    const fmt = (d: string) => {
+      const [y, m, day] = d.split("-");
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return `${months[parseInt(m)-1]} ${parseInt(day)}, ${y}`;
+    };
+    return `${fmt(event.startDate)} – ${fmt(event.endDate)}`;
+  })();
 
   return (
     <PageTransition>
@@ -162,8 +174,8 @@ export default function Home() {
         </div>
         <div className="container mx-auto px-4 flex flex-col items-center text-center relative z-20">
           <SectionTitle title="NEXT TOURNAMENT" className="mb-8 scroll-animate" />
-          <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 scroll-animate">Las Vegas Live w/ Big Foot Tournament</h3>
-          <p className="text-xl text-primary font-medium mb-12 scroll-animate">July 9–12, 2026 | Tark, Nevada</p>
+          <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 scroll-animate">{event.name}</h3>
+          <p className="text-xl text-primary font-medium mb-12 scroll-animate">{eventDateLabel} | {event.location}</p>
           
           <div className="mb-12 scroll-animate">
             <CountdownTimer targetDate={targetDate} />
