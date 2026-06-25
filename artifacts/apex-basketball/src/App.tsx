@@ -16,6 +16,7 @@ import Join from "./pages/Join";
 import Gallery from "./pages/Gallery";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
+import Games from "./pages/Games";
 import NotFound from "./pages/NotFound";
 
 // Layout
@@ -26,6 +27,7 @@ import CustomCursor from "./components/layout/CustomCursor";
 // Context
 import { AuthProvider } from "./context/AuthContext";
 import { EventProvider } from "./context/EventContext";
+import { DataProvider } from "./context/DataContext";
 
 const queryClient = new QueryClient();
 
@@ -108,6 +110,7 @@ function AnimatedRouter() {
         <Route path="/contact" component={Contact} />
         <Route path="/join" component={Join} />
         <Route path="/gallery" component={Gallery} />
+        <Route path="/games" component={Games} />
         <Route path="/login" component={Login} />
         <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
@@ -156,6 +159,7 @@ function App() {
 
         {!loading && (
           <AuthProvider>
+            <DataProvider>
             <EventProvider>
               <div className="flex flex-col min-h-[100dvh] bg-background text-foreground selection:bg-primary selection:text-white">
                 <CustomCursor />
@@ -169,6 +173,7 @@ function App() {
                 <Toaster theme="dark" position="bottom-right" />
               </div>
             </EventProvider>
+            </DataProvider>
           </AuthProvider>
         )}
 

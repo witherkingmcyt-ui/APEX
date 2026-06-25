@@ -7,9 +7,9 @@ import SectionTitle from "../components/ui/SectionTitle";
 import ApexButton from "../components/ui/ApexButton";
 import CountdownTimer from "../components/ui/CountdownTimer";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
-import { testimonials } from "../data/testimonials";
 import { useInView } from "react-intersection-observer";
 import { useFeaturedEvent } from "../context/EventContext";
+import { useData } from "../context/DataContext";
 
 function StatNumber({ value, label, inView }: { value: number; label: string; inView: boolean }) {
   const [count, setCount] = useState(0);
@@ -64,6 +64,7 @@ export default function Home() {
   const { ref: statsInViewRef, inView: statsInView } = useInView({ threshold: 0.5, triggerOnce: true });
 
   const { event } = useFeaturedEvent();
+  const { data } = useData();
   const targetDate = new Date(event.countdownTarget);
 
   const eventDateLabel = (() => {
@@ -195,7 +196,7 @@ export default function Home() {
           <SectionTitle title="WHY PARENTS TRUST APEX" className="mb-16 scroll-animate" />
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
+            {data.testimonials.map((t, i) => (
               <div key={i} className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl relative overflow-hidden scroll-animate group">
                 <div className="absolute -top-4 -left-2 text-[120px] font-serif text-primary/10 leading-none pointer-events-none group-hover:text-primary/20 transition-colors duration-500">"</div>
                 <p className="text-foreground/90 leading-relaxed mb-8 relative z-10 italic">
